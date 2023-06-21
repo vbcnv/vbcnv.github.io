@@ -6,7 +6,7 @@
     <title>Zoeken</title>
 
     <style>
-        /* ! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com */
+/* ! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -659,9 +659,9 @@ video {
   border-width: 1px;
 }
 
-.border-gray-300 {
+.border-zinc-300 {
   --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-color: rgb(212 212 216 / var(--tw-border-opacity));
 }
 
 .bg-blue-600 {
@@ -669,18 +669,18 @@ video {
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
-.bg-gray-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.fill-gray-900 {
-  fill: #111827;
+.bg-zinc-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(228 228 231 / var(--tw-bg-opacity));
+}
+
+.fill-zinc-900 {
+  fill: #18181b;
 }
 
 .p-2 {
@@ -732,14 +732,14 @@ video {
   color: rgb(255 196 33 / var(--tw-text-opacity));
 }
 
-.text-gray-400 {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
-}
-
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-zinc-400 {
+  --tw-text-opacity: 1;
+  color: rgb(161 161 170 / var(--tw-text-opacity));
 }
 
 .outline-none {
@@ -764,9 +764,9 @@ video {
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-gray-200:hover {
+.hover\:bg-zinc-200:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  background-color: rgb(228 228 231 / var(--tw-bg-opacity));
 }
 
 .hover\:shadow:hover {
@@ -775,34 +775,29 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.group:hover .group-hover\:bg-gray-300 {
+.group:hover .group-hover\:bg-zinc-300 {
   --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  background-color: rgb(212 212 216 / var(--tw-bg-opacity));
 }
 
 @media (prefers-color-scheme: dark) {
-  .dark\:border-gray-700 {
+  .dark\:border-zinc-700 {
     --tw-border-opacity: 1;
-    border-color: rgb(55 65 81 / var(--tw-border-opacity));
+    border-color: rgb(63 63 70 / var(--tw-border-opacity));
   }
 
-  .dark\:bg-gray-800 {
+  .dark\:bg-zinc-800 {
     --tw-bg-opacity: 1;
-    background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+    background-color: rgb(39 39 42 / var(--tw-bg-opacity));
   }
 
-  .dark\:bg-gray-900 {
+  .dark\:bg-zinc-900 {
     --tw-bg-opacity: 1;
-    background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    background-color: rgb(24 24 27 / var(--tw-bg-opacity));
   }
 
   .dark\:fill-white {
     fill: #fff;
-  }
-
-  .dark\:text-gray-500 {
-    --tw-text-opacity: 1;
-    color: rgb(107 114 128 / var(--tw-text-opacity));
   }
 
   .dark\:text-white {
@@ -810,19 +805,24 @@ video {
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
 
-  .dark\:hover\:bg-gray-800:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(31 41 55 / var(--tw-bg-opacity));
-  }
-
-  .group:hover .dark\:group-hover\:bg-gray-700 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(55 65 81 / var(--tw-bg-opacity));
-  }
-
-  .group:hover .dark\:group-hover\:text-gray-200 {
+  .dark\:text-zinc-500 {
     --tw-text-opacity: 1;
-    color: rgb(229 231 235 / var(--tw-text-opacity));
+    color: rgb(113 113 122 / var(--tw-text-opacity));
+  }
+
+  .dark\:hover\:bg-zinc-800:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(39 39 42 / var(--tw-bg-opacity));
+  }
+
+  .group:hover .dark\:group-hover\:bg-zinc-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(63 63 70 / var(--tw-bg-opacity));
+  }
+
+  .group:hover .dark\:group-hover\:text-zinc-200 {
+    --tw-text-opacity: 1;
+    color: rgb(228 228 231 / var(--tw-text-opacity));
   }
 }
 
@@ -836,10 +836,11 @@ video {
   }
 }
 
+
     </style>
 </head>
 <body>
-    <div class="flex h-screen flex-col items-center justify-center px-6 dark:bg-gray-900">
+    <div class="flex h-screen flex-col items-center justify-center px-6 dark:bg-zinc-900">
         <div class="mb-12">
           <a href="https://www.donbosco-gerdingen.be/">
             <svg version="1.1" id="Laag_1" class="h-20 w-auto" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 481.3 100" style="enable-background:new 0 0 481.3 100;" xml:space="preserve">
@@ -863,93 +864,93 @@ video {
               </g>
               <g>
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M278.2,41.6c0-6.1,4.9-10.8,11.2-10.8c1.8,0,3.7,0.4,5.4,1.2l-0.7,4.2c-1.5-0.8-3-1.3-4.6-1.3
               c-3.9,0-6.7,3-6.7,6.7s2.8,6.8,6.7,6.8c1.7,0,3.3-0.6,4.8-1.4l0.7,4.2c-1.8,0.8-3.7,1.3-5.7,1.3C283.1,52.5,278.2,47.7,278.2,41.6z
               "
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M297.6,41.7c0-6.2,4.9-10.9,11.2-10.9c6.3,0,11.2,4.7,11.2,10.9c0,6.1-4.9,10.8-11.2,10.8
               C302.5,52.5,297.6,47.8,297.6,41.7z M315.5,41.6c0-3.8-2.9-6.7-6.6-6.7c-3.8,0-6.6,2.9-6.6,6.7c0,3.8,2.8,6.8,6.6,6.8
               C312.6,48.4,315.5,45.5,315.5,41.6z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M355.5,39.1V52h-4.7V39.6c0-3.1-1.6-4.7-3.9-4.7c-2.5,0-4.4,1.9-4.4,5.1V52h-4.7V39.6c0-3.1-1.6-4.7-3.9-4.7
               c-2.5,0-4.4,1.9-4.4,5.1V52h-4.7V31.6l4.5-0.7v2.7c1.4-1.8,3.4-2.8,5.8-2.8c2.6,0,4.8,1.2,6,3.4c1.5-2.2,3.9-3.4,6.8-3.4
               C352.6,30.8,355.5,33.9,355.5,39.1z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M383.7,41.6c0,6.1-4.8,10.9-10.5,10.9c-2.8,0-5.2-1.2-7-3.1v13h-4.7V31.5l4.3-0.6v3.4c1.7-2.2,4.3-3.5,7.3-3.5
               C378.9,30.8,383.7,35.5,383.7,41.6z M379.1,41.6c0-3.8-2.9-6.7-6.6-6.7c-3.7,0-6.6,3-6.6,6.7c0,3.8,2.9,6.8,6.6,6.8
               C376.2,48.4,379.1,45.4,379.1,41.6z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M406.9,30.9V52h-4.5v-2.4c-1.5,1.8-3.8,2.8-6.4,2.8c-4.8,0-7.9-3.2-7.9-8.6V31.6l4.7-0.7v12.4
               c0,3.2,1.9,5,4.5,5c2.9,0,4.9-2.1,4.9-5.3V31.6L406.9,30.9z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M418.8,35.3v9.9c0,1.9,1.1,3.1,2.9,3.1c1,0,2.1-0.3,2.8-0.6v4.1c-0.8,0.4-2.2,0.7-3.7,0.7
               c-4.2,0-6.7-2.5-6.7-6.8V35.3h-3.2l0.7-4h2.5v-4.2l4.7-2.5v6.8h5.7v4H418.8z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M446.4,45.1l1.5,3.8c-2.5,2.3-5.8,3.7-9.3,3.7c-6.5,0-11.2-4.7-11.2-10.8s4.8-10.9,11-10.9
               c5.2,0,9.4,3.4,10.1,9.2l-16,5.2c1.1,2.1,3.3,3.6,6.2,3.6C441.4,48.7,444,47.6,446.4,45.1z M431.7,41.5l11.9-3.9
               c-0.9-1.9-2.8-3.1-5.1-3.1C434.7,34.5,431.8,37.5,431.7,41.5z"
                 />
-                <path class="fill-gray-900 dark:fill-white" d="M464.7,30.9v4.4c-4.4,0-6.7,2.1-6.7,6.5V52h-4.7V31.6l4.4-0.6v3.4C459.1,32.1,461.3,30.9,464.7,30.9z" />
+                <path class="fill-zinc-900 dark:fill-white" d="M464.7,30.9v4.4c-4.4,0-6.7,2.1-6.7,6.5V52h-4.7V31.6l4.4-0.6v3.4C459.1,32.1,461.3,30.9,464.7,30.9z" />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M467.4,50.5l0.6-3.8c2,1.3,3.9,2,5.8,2c1.9,0,3.1-1,3.1-2.6c0-1.2-0.6-2-3.2-2.9l-0.8-0.3
               c-3.2-1.1-5-3.2-5-6.2c0-3.5,2.7-6.1,6.8-6.1c1.9,0,4,0.6,5.9,1.5l-0.7,3.8c-1.9-1.1-3.8-1.6-5.1-1.6c-1.7,0-2.6,1-2.6,2.2
               c0,1.1,0.6,1.9,2.8,2.6l0.9,0.3c3.6,1.2,5.5,3.3,5.5,6.5c0,3.8-2.9,6.4-7.2,6.4C471.8,52.5,469.3,51.7,467.4,50.5z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M297.1,84.1l1.5,3.8c-2.5,2.3-5.8,3.7-9.3,3.7c-6.5,0-11.2-4.7-11.2-10.8s4.8-10.9,11-10.9
               c5.2,0,9.4,3.4,10.1,9.2l-16,5.2c1.1,2.1,3.3,3.6,6.2,3.6C292.1,87.7,294.7,86.6,297.1,84.1z M282.4,80.5l11.9-3.9
               c-0.9-1.9-2.8-3.1-5.1-3.1C285.4,73.5,282.6,76.5,282.4,80.5z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M323,78.4V91h-4.7V78.9c0-3.3-1.9-5.1-4.5-5.1c-2.9,0-5,2.1-5,5.4V91h-4.7V70.6l4.5-0.7v2.7
               c1.5-1.8,3.8-2.8,6.4-2.8C319.8,69.8,323,73,323,78.4z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M369.3,78.1V91h-4.7V78.6c0-3.1-1.6-4.7-3.9-4.7c-2.5,0-4.4,1.9-4.4,5.1V91h-4.7V78.6c0-3.1-1.6-4.7-3.9-4.7
               c-2.5,0-4.4,1.9-4.4,5.1V91h-4.7V70.6l4.5-0.7v2.7c1.4-1.8,3.4-2.8,5.8-2.8c2.6,0,4.8,1.2,6,3.4c1.5-2.2,3.9-3.4,6.8-3.4
               C366.3,69.8,369.3,72.9,369.3,78.1z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M392.7,84.1l1.5,3.8c-2.5,2.3-5.8,3.7-9.3,3.7c-6.5,0-11.2-4.7-11.2-10.8s4.8-10.9,11-10.9
               c5.2,0,9.4,3.4,10.1,9.2l-16,5.2c1.1,2.1,3.3,3.6,6.2,3.6C387.7,87.7,390.3,86.6,392.7,84.1z M378,80.5l11.9-3.9
               c-0.9-1.9-2.8-3.1-5.1-3.1C381.1,73.5,378.2,76.5,378,80.5z"
                 />
                 <path
-                  class="fill-gray-900 dark:fill-white"
+                  class="fill-zinc-900 dark:fill-white"
                   d="M417.1,84.1l1.5,3.8c-2.5,2.3-5.8,3.7-9.3,3.7c-6.5,0-11.2-4.7-11.2-10.8s4.8-10.9,11-10.9
               c5.2,0,9.4,3.4,10.1,9.2l-16,5.2c1.1,2.1,3.3,3.6,6.2,3.6C412.1,87.7,414.7,86.6,417.1,84.1z M402.4,80.5l11.9-3.9
               c-0.9-1.9-2.8-3.1-5.1-3.1C405.4,73.5,402.5,76.5,402.4,80.5z"
                 />
-                <path class="fill-gray-900 dark:fill-white" d="M435.4,69.9v4.4c-4.4,0-6.7,2.1-6.7,6.5V91H424V70.6l4.4-0.6v3.4C429.8,71.1,432,69.9,435.4,69.9z" />
+                <path class="fill-zinc-900 dark:fill-white" d="M435.4,69.9v4.4c-4.4,0-6.7,2.1-6.7,6.5V91H424V70.6l4.4-0.6v3.4C429.8,71.1,432,69.9,435.4,69.9z" />
               </g>
             </svg>
           </a>
         </div>
-        <form action="https://www.google.be/search" class="mx-auto mb-4 flex w-full items-center rounded-full border border-gray-300 bg-white transition hover:shadow dark:border-gray-700 dark:bg-gray-800 lg:max-w-2xl">
+        <form action="https://www.google.be/search" class="mx-auto mb-4 flex w-full items-center rounded-full border border-zinc-300 bg-white transition hover:shadow dark:border-zinc-700 dark:bg-zinc-800 lg:max-w-2xl">
           <div class="pl-5">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
           </div>
-          <input type="text" name="q" autofocus class="w-full rounded-full bg-white py-[14px] pl-4 outline-none dark:bg-gray-800 dark:text-white" placeholder="Zoeken op het internet ..." />
+          <input type="text" name="q" autofocus class="w-full rounded-full bg-white py-[14px] pl-4 outline-none dark:bg-zinc-800 dark:text-white" placeholder="Zoeken op het internet ..." />
           <div class="pr-2">
             <button type="submit" class="rounded-full bg-blue-600 p-2 text-white hover:bg-blue-700">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
@@ -960,37 +961,37 @@ video {
         </form>
       
         <div class="mt-8 flex w-full justify-center gap-4 lg:max-w-4xl">
-          <a href="https://docs.vbc.be/login/service/azure" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
-            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-200 transition ease-in-out group-hover:bg-gray-300 dark:bg-gray-800 dark:group-hover:bg-gray-700">
+          <a href="https://docs.vbc.be/login/service/azure" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-zinc-200 dark:hover:bg-zinc-800">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-zinc-200 transition ease-in-out group-hover:bg-zinc-300 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
               <svg width="24" height="24" class="h-8 w-8 text-[#E51432]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14.6677 9.02242L14.7839 9.76336L14.7839 9.76336L14.6677 9.02242ZM16.3079 8.76517L16.1917 8.02423L16.1917 8.02423L16.3079 8.76517ZM18.3323 18.9776L18.4485 19.7185L18.4485 19.7185L18.3323 18.9776ZM16.6921 19.2348L16.5759 18.4939L16.5759 18.4939L16.6921 19.2348ZM15.4059 18.4337L16.1416 18.2879L16.1416 18.2879L15.4059 18.4337ZM13.7671 10.1665L13.0314 10.3124L13.0314 10.3124L13.7671 10.1665ZM17.5941 9.56628L16.8584 9.71212L16.8584 9.71212L17.5941 9.56628ZM18.7509 15.4019L19.4866 15.2561L19.4866 15.2561L18.7509 15.4019ZM19.2329 17.8335L19.9686 17.6876L19.9686 17.6876L19.2329 17.8335ZM14.7839 9.76336L16.4241 9.50611L16.1917 8.02423L14.5515 8.28147L14.7839 9.76336ZM18.2161 18.2366L16.5759 18.4939L16.8083 19.9758L18.4485 19.7185L18.2161 18.2366ZM16.1416 18.2879L15.6596 15.8564L14.1882 16.148L14.6702 18.5796L16.1416 18.2879ZM15.6596 15.8564L14.5027 10.0207L13.0314 10.3124L14.1882 16.148L15.6596 15.8564ZM16.8584 9.71212L18.0153 15.5478L19.4866 15.2561L18.3298 9.42045L16.8584 9.71212ZM18.0153 15.5478L18.4973 17.9793L19.9686 17.6876L19.4866 15.2561L18.0153 15.5478ZM15.0401 16.7431L18.8671 16.1429L18.6347 14.661L14.8077 15.2612L15.0401 16.7431ZM18.4485 19.7185C19.3896 19.5709 20.1735 18.7213 19.9686 17.6876L18.4973 17.9793C18.5044 18.0151 18.4989 18.0577 18.4597 18.1075C18.4185 18.1599 18.3387 18.2174 18.2161 18.2366L18.4485 19.7185ZM16.4241 9.50611C16.5474 9.48676 16.6605 9.51524 16.741 9.56539C16.8211 9.61527 16.8506 9.67252 16.8584 9.71212L18.3298 9.42045C18.1312 8.41874 17.119 7.87878 16.1917 8.02423L16.4241 9.50611ZM14.5515 8.28147C13.6104 8.42908 12.8265 9.2787 13.0314 10.3124L14.5027 10.0207C14.4956 9.98492 14.5011 9.9423 14.5403 9.89246C14.5815 9.84013 14.6613 9.78258 14.7839 9.76336L14.5515 8.28147ZM16.5759 18.4939C16.4526 18.5132 16.3395 18.4848 16.259 18.4346C16.1789 18.3847 16.1494 18.3275 16.1416 18.2879L14.6702 18.5796C14.8688 19.5813 15.881 20.1212 16.8083 19.9758L16.5759 18.4939ZM9.75 7.5H11.25V6H9.75V7.5ZM11.25 18.5H9.75V20H11.25V18.5ZM9.5 18.25V15.75H8V18.25H9.5ZM9.5 15.75V7.75H8V15.75H9.5ZM11.5 7.75V15.75H13V7.75H11.5ZM11.5 15.75V18.25H13V15.75H11.5ZM8.75 16.5H12.25V15H8.75V16.5ZM5.75 5.5H7.25V4H5.75V5.5ZM7.25 18.5H5.75V20H7.25V18.5ZM5.5 18.25V15.75H4V18.25H5.5ZM5.5 15.75V5.75H4V15.75H5.5ZM7.5 5.75V15.75H9V5.75H7.5ZM7.5 15.75V18.25H9V15.75H7.5ZM4.75 16.5H8.25V15H4.75V16.5ZM7.25 20C8.2165 20 9 19.2165 9 18.25H7.5C7.5 18.3881 7.38807 18.5 7.25 18.5V20ZM7.25 5.5C7.38807 5.5 7.5 5.61193 7.5 5.75H9C9 4.7835 8.2165 4 7.25 4V5.5ZM5.75 4C4.7835 4 4 4.7835 4 5.75H5.5C5.5 5.61193 5.61193 5.5 5.75 5.5V4ZM5.75 18.5C5.61193 18.5 5.5 18.3881 5.5 18.25H4C4 19.2165 4.7835 20 5.75 20V18.5ZM11.25 20C12.2165 20 13 19.2165 13 18.25H11.5C11.5 18.3881 11.3881 18.5 11.25 18.5V20ZM11.25 7.5C11.3881 7.5 11.5 7.61193 11.5 7.75H13C13 6.7835 12.2165 6 11.25 6V7.5ZM9.75 6C8.7835 6 8 6.7835 8 7.75H9.5C9.5 7.61193 9.61193 7.5 9.75 7.5V6ZM9.75 18.5C9.61193 18.5 9.5 18.3881 9.5 18.25H8C8 19.2165 8.7835 20 9.75 20V18.5Z" fill="currentColor"></path>
               </svg>
             </div>
-            <span class="truncate text-center text-sm dark:text-gray-500 dark:group-hover:text-gray-200">Kennisbank</span>
+            <span class="truncate text-center text-sm dark:text-zinc-500 dark:group-hover:text-zinc-200">Kennisbank</span>
           </a>
       
-          <a href="https://zt.vbc.be/azure/redirect" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
-            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-200 transition ease-in-out group-hover:bg-gray-300 dark:bg-gray-800 dark:group-hover:bg-gray-700">
+          <a href="https://zt.vbc.be/azure/redirect" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-zinc-200 dark:hover:bg-zinc-800">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-zinc-200 transition ease-in-out group-hover:bg-zinc-300 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-[#E51432]" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 5.75h-2.5a1 1 0 0 0-1 1v5.5m10.07-3.533c-1.786-1.074-.573-3.263-.573-3.263l-.946-.568a.95.95 0 0 0-1.325.37L6.88 14.448a1.034 1.034 0 0 0 .355 1.381l5.464 3.285a.95.95 0 0 0 1.325-.37l5.096-9.192a1.034 1.034 0 0 0-.355-1.381l-.946-.569s-1.213 2.19-3 1.115Z"></path>
               </svg>
             </div>
-            <span class="truncate text-center text-sm dark:text-gray-500 dark:group-hover:text-gray-200">Servicedesk</span>
+            <span class="truncate text-center text-sm dark:text-zinc-500 dark:group-hover:text-zinc-200">Servicedesk</span>
           </a>
       
-          <a href="https://cpm.vbc.be/" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
-            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-200 transition ease-in-out group-hover:bg-gray-300 dark:bg-gray-800 dark:group-hover:bg-gray-700">
+          <a href="https://cpm.vbc.be/" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-zinc-200 dark:hover:bg-zinc-800">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-zinc-200 transition ease-in-out group-hover:bg-zinc-300 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
               <svg width="24" height="24" class="h-9 w-9 text-[#E51432]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.25 13.0632C11.9872 12.5294 13.25 10.9122 13.25 9C13.25 6.65279 11.3472 4.75 9 4.75C6.65279 4.75 4.75 6.65279 4.75 9C4.75 10.9122 6.01283 12.5294 7.75 13.0632V18C7.75 18.6904 8.30964 19.25 9 19.25C9.69036 19.25 10.25 18.6904 10.25 18V13.0632Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M12 12L17.3452 15.0736C17.9523 15.436 18.7285 15.2209 19.079 14.5932C19.4295 13.9655 19.2215 13.1629 18.6144 12.8005L13.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M9 8V8.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </div>
-            <span class="truncate text-center text-sm dark:text-gray-500 dark:group-hover:text-gray-200">C.P.M.</span>
+            <span class="truncate text-center text-sm dark:text-zinc-500 dark:group-hover:text-zinc-200">C.P.M.</span>
           </a>
       
-          <a href="https://party.vbc.be/" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
-            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-200 transition ease-in-out group-hover:bg-gray-300 dark:bg-gray-800 dark:group-hover:bg-gray-700">
+          <a href="https://party.vbc.be/" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-zinc-200 dark:hover:bg-zinc-800">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-zinc-200 transition ease-in-out group-hover:bg-zinc-300 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
               <svg width="24" height="24" class="h-9 w-9 text-[#E51432]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8.89062 9.28125L4.87279 17.7937C4.44606 18.628 5.29889 19.5379 6.16008 19.1671L14.6016 16.1875" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M13.3196 10.9774C14.9594 12.8695 15.698 15.085 14.9691 15.9259C14.2403 16.7669 12.3202 15.9147 10.6804 14.0226C9.04057 12.1305 8.30205 9.91499 9.03085 9.07406C9.75966 8.23313 11.6798 9.08527 13.3196 10.9774Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1000,11 +1001,11 @@ video {
                 <path d="M17 13.0001L17.2929 12.7072C17.6834 12.3167 18.3166 12.3167 18.7071 12.7072L19 13.0001" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </div>
-            <span class="truncate text-center text-sm dark:text-gray-500 dark:group-hover:text-gray-200">Evenementen</span>
+            <span class="truncate text-center text-sm dark:text-zinc-500 dark:group-hover:text-zinc-200">Evenementen</span>
           </a>
       
-          <a href="https://app.telenet.center/auth/sso/login" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-gray-200 dark:hover:bg-gray-800">
-            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-gray-200 transition ease-in-out group-hover:bg-gray-300 dark:bg-gray-800 dark:group-hover:bg-gray-700">
+          <a href="https://app.telenet.center/auth/sso/login" class="group flex w-32 flex-col space-y-1.5 rounded-lg p-5 transition ease-in-out hover:bg-zinc-200 dark:hover:bg-zinc-800">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-zinc-200 transition ease-in-out group-hover:bg-zinc-300 dark:bg-zinc-800 dark:group-hover:bg-zinc-700">
               <svg version="1.1" id="Laag_1" class="h-7 w-7 text-[#ffc421]" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 80 79.8" style="enable-background:new 0 0 80 79.8;" xml:space="preserve">
                 <g id="Genius-2">
                   <path
@@ -1035,7 +1036,7 @@ video {
               </svg>
             </div>
       
-            <span class="truncate text-center text-sm dark:text-gray-500 dark:group-hover:text-gray-200">Telenet Center</span>
+            <span class="truncate text-center text-sm dark:text-zinc-500 dark:group-hover:text-zinc-200">Telenet Center</span>
           </a>
         </div>
       </div>
