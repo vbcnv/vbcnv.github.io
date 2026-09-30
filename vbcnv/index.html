@@ -9,10 +9,31 @@
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
 
+    <style id="hidden-tiles"></style>
     <script>
-        // Apply theme and reminder state before first paint to avoid a flash.
+        // Personal settings live in this browser only. The key is namespaced because
+        // every customer page is served from the same origin (vbcnv.github.io).
+        var vbcnv = {
+            KEY: 'vbcnv.settings',
+            ID: /^[a-z0-9-]+$/,
+            read: function () {
+                try { return JSON.parse(localStorage.getItem(this.KEY)) || {}; } catch (e) { return {}; }
+            },
+            // Hides the given tiles, and every group that has no visible tile left
+            hiddenCss: function (ids) {
+                ids = Array.isArray(ids) ? ids.filter(function (id) { return vbcnv.ID.test(id); }) : [];
+                if (!ids.length) return '';
+                var is = ids.map(function (id) { return '[data-id="' + id + '"]'; });
+                var not = is.map(function (sel) { return ':not(' + sel + ')'; }).join('');
+                return is.join(',') + '{display:none!important}' +
+                    '[data-group]:not(:has([data-id]' + not + ')){display:none!important}';
+            }
+        };
+
+        // Apply theme, reminder state and hidden tiles before first paint to avoid a flash.
         (function () {
             var root = document.documentElement;
+            var settings = vbcnv.read();
             var theme = null;
             var dismissed = null;
             try {
@@ -22,9 +43,10 @@
             if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 root.classList.add('dark');
             }
-            if (dismissed === new Date().toDateString()) {
+            if (settings.reminder === false || dismissed === new Date().toDateString()) {
                 root.dataset.reminder = 'hidden';
             }
+            document.getElementById('hidden-tiles').textContent = vbcnv.hiddenCss(settings.hidden);
         })();
     </script>
 
@@ -47,7 +69,7 @@
 
         <!-- Header -->
         <header class="reveal flex items-center justify-between p-4 sm:p-6">
-            <div class="relative" id="apps">
+            <div class="relative" id="apps" data-group="Beheer">
                 <button type="button" id="apps-button" class="icon-button" aria-label="Beheertools"
                     aria-haspopup="true" aria-expanded="false" aria-controls="apps-menu" title="Beheertools">
                     <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="h-5 w-5">
@@ -60,7 +82,7 @@
                     <p class="px-2.5 pb-1.5 pt-1 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">
                         Beheer</p>
 
-                    <a href="https://rmm.vbc.be/" class="menu-item group" role="menuitem">
+                    <a href="https://rmm.vbc.be/" class="menu-item group" role="menuitem" data-id="rmm">
                         <span
                             class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-red-50 text-brand ring-1 ring-inset ring-red-100 dark:bg-brand/10 dark:ring-brand/20">
                             <svg width="24" height="24" fill="none" class="h-6 w-6" viewBox="0 0 24 24">
@@ -70,12 +92,12 @@
                             </svg>
                         </span>
                         <span class="min-w-0">
-                            <span class="block text-sm font-medium text-zinc-900 dark:text-white">N-able RMM</span>
+                            <span class="menu-label block text-sm font-medium text-zinc-900 dark:text-white">N-able RMM</span>
                             <span class="block truncate text-xs text-zinc-500">rmm.vbc.be</span>
                         </span>
                     </a>
 
-                    <a href="https://unifi.vbc.be:8443/" class="menu-item group" role="menuitem">
+                    <a href="https://unifi.vbc.be:8443/" class="menu-item group" role="menuitem" data-id="unifi">
                         <span
                             class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-red-50 text-brand ring-1 ring-inset ring-red-100 dark:bg-brand/10 dark:ring-brand/20">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" fill="none"
@@ -86,27 +108,37 @@
                             </svg>
                         </span>
                         <span class="min-w-0">
-                            <span class="block text-sm font-medium text-zinc-900 dark:text-white">UniFi Controller</span>
+                            <span class="menu-label block text-sm font-medium text-zinc-900 dark:text-white">UniFi Controller</span>
                             <span class="block truncate text-xs text-zinc-500">unifi.vbc.be</span>
                         </span>
                     </a>
                 </div>
             </div>
 
-            <button type="button" id="theme-toggle" class="icon-button" aria-label="Wissel tussen licht en donker thema"
-                title="Licht / donker">
-                <!-- Moon: shown in light mode -->
-                <svg class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M18.25 15.52A7.25 7.25 0 0 1 8.48 5.75a7.25 7.25 0 1 0 9.77 9.77Z" />
-                </svg>
-                <!-- Sun: shown in dark mode -->
-                <svg class="hidden h-5 w-5 dark:block" fill="none" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3.25" stroke="currentColor" stroke-width="1.5" />
-                    <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
-                        d="M12 2.75v1.5M12 19.75v1.5M21.25 12h-1.5M4.25 12h-1.5M18.54 5.46l-1.06 1.06M6.52 17.48l-1.06 1.06M18.54 18.54l-1.06-1.06M6.52 6.52 5.46 5.46" />
-                </svg>
-            </button>
+            <div class="ml-auto flex items-center gap-1">
+                <button type="button" id="settings-button" class="icon-button" aria-label="Pagina aanpassen"
+                    aria-haspopup="dialog" aria-controls="settings" title="Pagina aanpassen">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M4.75 7.75h4.5M13.75 7.75h5.5M4.75 16.25h9M17.75 16.25h1.5M9.25 7.75a2.25 2.25 0 1 0 4.5 0 2.25 2.25 0 0 0-4.5 0ZM13.75 16.25a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
+                    </svg>
+                </button>
+
+                <button type="button" id="theme-toggle" class="icon-button" aria-label="Wissel tussen licht en donker thema"
+                    title="Licht / donker">
+                    <!-- Moon: shown in light mode -->
+                    <svg class="h-5 w-5 dark:hidden" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M18.25 15.52A7.25 7.25 0 0 1 8.48 5.75a7.25 7.25 0 1 0 9.77 9.77Z" />
+                    </svg>
+                    <!-- Sun: shown in dark mode -->
+                    <svg class="hidden h-5 w-5 dark:block" fill="none" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3.25" stroke="currentColor" stroke-width="1.5" />
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
+                            d="M12 2.75v1.5M12 19.75v1.5M21.25 12h-1.5M4.25 12h-1.5M18.54 5.46l-1.06 1.06M6.52 17.48l-1.06 1.06M18.54 18.54l-1.06-1.06M6.52 6.52 5.46 5.46" />
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <!-- Main -->
@@ -169,15 +201,15 @@
             </a>
 
             <!-- Greeting + clock -->
-            <p class="reveal mt-8 inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/60 px-3.5 py-1.5 text-xs font-medium text-zinc-600 backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:text-zinc-400"
+            <p class="reveal mt-8 inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 rounded-full border border-zinc-200/80 bg-white/60 px-3.5 py-1.5 text-xs font-medium text-zinc-600 backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:text-zinc-400"
                 style="--d: 120ms">
-                <span id="greeting" class="text-zinc-900 dark:text-white">Welkom</span>
+                <span id="greeting" class="whitespace-nowrap text-zinc-900 dark:text-white">Welkom</span>
                 <span aria-hidden="true" class="text-zinc-300 dark:text-zinc-700">/</span>
-                <time id="clock" class="tabular-nums first-letter:uppercase"></time>
+                <time id="clock" class="whitespace-nowrap tabular-nums first-letter:uppercase"></time>
             </p>
 
             <!-- Search -->
-            <form action="https://www.google.be/search" role="search" class="reveal mt-5 w-full max-w-2xl"
+            <form id="search-form" action="https://www.google.be/search" role="search" class="reveal mt-5 w-full max-w-2xl"
                 style="--d: 180ms">
                 <label
                     class="group flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white/80 pl-5 pr-2 shadow-lg shadow-zinc-900/[0.04] backdrop-blur-xl transition focus-within:border-brand/40 focus-within:shadow-brand/[0.06] focus-within:ring-4 focus-within:ring-brand/10 dark:border-white/10 dark:bg-zinc-900/70 dark:shadow-black/20 dark:focus-within:border-brand/50 dark:focus-within:ring-brand/15">
@@ -204,14 +236,14 @@
             </form>
 
             <!-- Shortcuts -->
-            <div class="mt-12 grid w-full max-w-4xl gap-8 lg:grid-cols-2">
+            <div class="mt-12 flex w-full max-w-4xl flex-wrap justify-center gap-8">
 
-                <section class="reveal" style="--d: 240ms" aria-labelledby="vbc-label">
+                <section class="reveal w-full lg:w-[calc(50%-1rem)]" style="--d: 240ms" aria-labelledby="vbc-label" data-group="VBC">
                     <h2 id="vbc-label" class="section-label">
                         <span class="h-1.5 w-1.5 rounded-full bg-brand"></span> VBC
                     </h2>
                     <div class="grid grid-cols-3 gap-3">
-                        <a href="https://www.vbc.be/web#action=1079" class="tile tile--vbc group">
+                        <a href="https://www.vbc.be/web#action=1079" class="tile tile--vbc group" data-id="kennisbank">
                             <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                 <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -226,7 +258,7 @@
                             <span class="tile-label">Kennisbank</span>
                         </a>
 
-                        <a href="https://www.vbc.be/web" class="tile tile--vbc group">
+                        <a href="https://www.vbc.be/web" class="tile tile--vbc group" data-id="odoo">
                             <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                 <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -241,7 +273,7 @@
                             <span class="tile-label">Odoo</span>
                         </a>
 
-                        <a href="https://pssw-rd.be/" class="tile tile--vbc group">
+                        <a href="https://pssw-rd.be/" class="tile tile--vbc group" data-id="pssw-rd">
                             <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                 <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -263,12 +295,12 @@
                     </div>
                 </section>
 
-                <section class="reveal" style="--d: 300ms" aria-labelledby="telenet-label">
+                <section class="reveal w-full lg:w-[calc(50%-1rem)]" style="--d: 300ms" aria-labelledby="telenet-label" data-group="Telenet">
                     <h2 id="telenet-label" class="section-label">
                         <span class="h-1.5 w-1.5 rounded-full bg-telenet"></span> Telenet
                     </h2>
                     <div class="grid grid-cols-3 gap-3">
-                        <a href="https://pulse.telenet.center/" class="tile tile--telenet group">
+                        <a href="https://pulse.telenet.center/" class="tile tile--telenet group" data-id="pulse">
                             <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                 <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -288,7 +320,7 @@
                             <span class="tile-label">Pulse</span>
                         </a>
 
-                        <a href="https://genius.prd.telenet.be/nl/" class="tile tile--telenet group">
+                        <a href="https://genius.prd.telenet.be/nl/" class="tile tile--telenet group" data-id="genius">
                             <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                 <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -317,7 +349,7 @@
                         </a>
 
                         <a href="https://pega-adt.prd.connect.telenet.be/prweb/PRAuth/OKTATelenet"
-                            class="tile tile--telenet group">
+                            class="tile tile--telenet group" data-id="origin">
                             <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                 <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -337,6 +369,14 @@
                             <span class="tile-label">Origin PRD</span>
                         </a>
                     </div>
+                </section>
+
+                <section id="custom-section" class="reveal w-full" style="--d: 360ms" aria-labelledby="custom-label"
+                    hidden>
+                    <h2 id="custom-label" class="section-label">
+                        <span class="h-1.5 w-1.5 rounded-full bg-zinc-400"></span> Mijn links
+                    </h2>
+                    <div id="custom-tiles" class="grid grid-cols-3 gap-3 sm:grid-cols-6"></div>
                 </section>
             </div>
         </main>
@@ -369,41 +409,329 @@
         </div>
     </div>
 
+    <!-- Settings -->
+    <dialog id="settings" class="sheet" aria-labelledby="settings-title">
+        <div class="flex min-h-full flex-col">
+            <div
+                class="sticky top-0 z-10 flex items-center justify-between border-b border-zinc-200/80 bg-white/90 px-5 py-3 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/90">
+                <h2 id="settings-title" class="text-base font-semibold">Pagina aanpassen</h2>
+                <button type="button" class="icon-button" data-close autofocus aria-label="Sluiten" title="Sluiten">
+                    <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="m4 4 8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex-1 space-y-8 px-5 py-6">
+                <fieldset>
+                    <legend class="settings-label">Algemeen</legend>
+                    <label class="block">
+                        <span class="mb-1.5 block text-sm font-medium">Je naam</span>
+                        <input id="set-name" type="text" maxlength="40" autocomplete="given-name" class="field"
+                            placeholder="Voor de begroeting, bv. Sven">
+                    </label>
+
+                    <p class="mb-1.5 mt-5 text-sm font-medium" id="theme-label">Thema</p>
+                    <div class="segmented" role="radiogroup" aria-labelledby="theme-label">
+                        <label><input type="radio" name="theme" value="system"><span>Systeem</span></label>
+                        <label><input type="radio" name="theme" value="light"><span>Licht</span></label>
+                        <label><input type="radio" name="theme" value="dark"><span>Donker</span></label>
+                    </div>
+
+                    <div class="mt-5 divide-y divide-zinc-100 dark:divide-white/5">
+                        <label class="settings-row">
+                            <span>Dagelijkse herinnering tonen</span>
+                            <input id="set-reminder" type="checkbox" class="switch">
+                        </label>
+                        <label class="settings-row">
+                            <span>Links openen in een nieuw tabblad</span>
+                            <input id="set-newtab" type="checkbox" class="switch">
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend class="settings-label">Zoekmachine</legend>
+                    <div class="segmented">
+                        <label><input type="radio" name="search" value="google"><span>Google</span></label>
+                        <label><input type="radio" name="search" value="bing"><span>Bing</span></label>
+                        <label><input type="radio" name="search" value="duckduckgo"><span>DuckDuckGo</span></label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend class="settings-label">Snelkoppelingen</legend>
+                    <div id="set-tiles" class="divide-y divide-zinc-100 dark:divide-white/5"></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend class="settings-label">Mijn links</legend>
+                    <p id="set-links-empty" class="text-sm text-zinc-500">Voeg je eigen links toe. Ze verschijnen onder
+                        de vaste snelkoppelingen.</p>
+                    <ul id="set-links" class="space-y-2"></ul>
+
+                    <form id="link-form" class="mt-4 space-y-2" novalidate>
+                        <div class="grid grid-cols-5 gap-2">
+                            <label class="col-span-2">
+                                <span class="sr-only">Naam</span>
+                                <input id="link-label" type="text" maxlength="40" autocomplete="off" class="field"
+                                    placeholder="Naam">
+                            </label>
+                            <label class="col-span-3">
+                                <span class="sr-only">Webadres</span>
+                                <input id="link-url" type="text" inputmode="url" autocomplete="off" required
+                                    class="field" placeholder="www.voorbeeld.be">
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn--primary w-full">Link toevoegen</button>
+                    </form>
+                </fieldset>
+            </div>
+
+            <div class="border-t border-zinc-200/80 px-5 py-4 dark:border-white/10">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" id="export-button" class="btn">Exporteren</button>
+                    <button type="button" id="import-button" class="btn">Importeren</button>
+                    <input id="import-file" type="file" accept="application/json,.json" hidden>
+                    <button type="button" id="reset-button" class="btn ml-auto text-brand dark:text-red-400">Herstellen</button>
+                </div>
+                <p id="settings-status" class="mt-3 min-h-4 text-xs text-zinc-500" role="status">
+                    Deze instellingen worden alleen in deze browser bewaard.</p>
+            </div>
+        </div>
+    </dialog>
+
+    <template id="custom-tile">
+        <a class="tile tile--custom group">
+            <svg class="tile-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="tile-icon">
+                <img class="h-6 w-6 rounded" alt="" hidden>
+                <span class="text-lg font-semibold" data-initial aria-hidden="true"></span>
+            </span>
+            <span class="tile-label"></span>
+        </a>
+    </template>
+
+    <template id="tile-row">
+        <label class="settings-row">
+            <span></span>
+            <input type="checkbox" class="switch">
+        </label>
+    </template>
+
+    <template id="link-row">
+        <li class="flex items-center gap-3 rounded-xl border border-zinc-200/80 p-2 pl-3 dark:border-white/10">
+            <span class="min-w-0 flex-1">
+                <span class="block truncate text-sm font-medium" data-label></span>
+                <span class="block truncate text-xs text-zinc-500" data-host></span>
+            </span>
+            <button type="button" class="icon-button h-8 w-8" data-action="up" aria-label="Omhoog" title="Omhoog">
+                <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="m4.5 10 3.5-3.5 3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <button type="button" class="icon-button h-8 w-8" data-action="down" aria-label="Omlaag" title="Omlaag">
+                <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="m4.5 6 3.5 3.5L11.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <button type="button" class="icon-button h-8 w-8 hover:text-brand dark:hover:text-red-400" data-action="remove"
+                aria-label="Verwijderen" title="Verwijderen">
+                <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="m4 4 8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+            </button>
+        </li>
+    </template>
+
     <script>
         (function () {
             var root = document.documentElement;
 
+            var ENGINES = {
+                google: { name: 'Google', action: 'https://www.google.be/search' },
+                bing: { name: 'Bing', action: 'https://www.bing.com/search' },
+                duckduckgo: { name: 'DuckDuckGo', action: 'https://duckduckgo.com/' }
+            };
+            var MAX_LINKS = 24;
+
             function store(key, value) {
-                try { localStorage.setItem(key, value); } catch (e) { }
+                try {
+                    if (value === null) localStorage.removeItem(key);
+                    else localStorage.setItem(key, value);
+                } catch (e) { }
             }
+
+            function load(key) {
+                try { return localStorage.getItem(key); } catch (e) { return null; }
+            }
+
+            // Personal settings (browser only). Everything read back is validated, so a
+            // hand-edited or imported file can never inject a non-http(s) link.
+            function toUrl(value) {
+                value = String(value || '').trim();
+                if (!value) return null;
+                if (!/^https?:\/\//i.test(value)) value = 'https://' + value;
+                try {
+                    var url = new URL(value);
+                    return /^https?:$/.test(url.protocol) && url.hostname ? url : null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function normalizeLink(link) {
+                if (!link || typeof link !== 'object') return null;
+                var url = toUrl(link.url);
+                if (!url) return null;
+                var label = typeof link.label === 'string' ? link.label.trim().slice(0, 40) : '';
+                return { label: label || url.hostname.replace(/^www\./, ''), url: url.href };
+            }
+
+            function normalize(raw) {
+                var s = raw && typeof raw === 'object' ? raw : {};
+                return {
+                    name: typeof s.name === 'string' ? s.name.trim().slice(0, 40) : '',
+                    search: Object.prototype.hasOwnProperty.call(ENGINES, s.search) ? s.search : 'google',
+                    newTab: s.newTab === true,
+                    reminder: s.reminder !== false,
+                    hidden: Array.isArray(s.hidden)
+                        ? s.hidden.filter(function (id) { return typeof id === 'string' && vbcnv.ID.test(id); })
+                        : [],
+                    links: Array.isArray(s.links)
+                        ? s.links.map(normalizeLink).filter(Boolean).slice(0, MAX_LINKS)
+                        : []
+                };
+            }
+
+            var settings = normalize(vbcnv.read());
+
+            function save() {
+                store(vbcnv.KEY, JSON.stringify(settings));
+                apply();
+            }
+
+            // Theme: 'system' means no stored preference
+            var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+            function themePref() {
+                var theme = load('theme');
+                return theme === 'light' || theme === 'dark' ? theme : 'system';
+            }
+
+            function applyTheme() {
+                var pref = themePref();
+                root.classList.toggle('dark', pref === 'dark' || (pref === 'system' && darkQuery.matches));
+            }
+
+            function setTheme(pref) {
+                store('theme', pref === 'system' ? null : pref);
+                applyTheme();
+                syncForm();
+            }
+
+            document.getElementById('theme-toggle').addEventListener('click', function () {
+                setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+            });
+
+            darkQuery.addEventListener('change', applyTheme);
 
             // Greeting + clock
             var greeting = document.getElementById('greeting');
             var clock = document.getElementById('clock');
             var dateFormat = new Intl.DateTimeFormat('nl-BE', { weekday: 'long', day: 'numeric', month: 'long' });
+            var shortDateFormat = new Intl.DateTimeFormat('nl-BE', { weekday: 'short', day: 'numeric', month: 'long' });
+            var narrow = window.matchMedia('(max-width: 639px)');
             var timeFormat = new Intl.DateTimeFormat('nl-BE', { hour: '2-digit', minute: '2-digit' });
+
+            function renderGreeting(now) {
+                var hour = now.getHours();
+                var word = hour < 6 ? 'Goedenacht' : hour < 12 ? 'Goedemorgen' : hour < 18 ? 'Goedemiddag' : 'Goedenavond';
+                greeting.textContent = settings.name ? word + ', ' + settings.name : word;
+            }
 
             function tick() {
                 var now = new Date();
-                var hour = now.getHours();
-                greeting.textContent = hour < 6 ? 'Goedenacht' : hour < 12 ? 'Goedemorgen' : hour < 18 ? 'Goedemiddag' : 'Goedenavond';
-                clock.textContent = dateFormat.format(now) + ' · ' + timeFormat.format(now);
+                renderGreeting(now);
+                clock.textContent = (narrow.matches ? shortDateFormat : dateFormat).format(now) + ' · ' + timeFormat.format(now);
                 clock.dateTime = now.toISOString();
                 setTimeout(tick, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()));
             }
+
+            // Custom links, rendered as tiles below the fixed shortcuts
+            var customSection = document.getElementById('custom-section');
+            var customTiles = document.getElementById('custom-tiles');
+            var customTemplate = document.getElementById('custom-tile');
+            var renderedLinks = null;
+
+            function renderLinks() {
+                var key = JSON.stringify(settings.links);
+                if (key === renderedLinks) return;
+                renderedLinks = key;
+
+                customTiles.textContent = '';
+                settings.links.forEach(function (link) {
+                    var url = new URL(link.url);
+                    var tile = customTemplate.content.firstElementChild.cloneNode(true);
+                    var img = tile.querySelector('img');
+                    var initial = tile.querySelector('[data-initial]');
+
+                    tile.href = link.url;
+                    tile.title = url.host;
+                    tile.querySelector('.tile-label').textContent = link.label;
+                    initial.textContent = link.label.charAt(0).toUpperCase();
+
+                    // Use the site's favicon when it has one, otherwise keep the initial
+                    img.addEventListener('load', function () {
+                        img.hidden = false;
+                        initial.hidden = true;
+                    });
+                    img.addEventListener('error', function () { img.remove(); });
+                    img.src = url.origin + '/favicon.ico';
+
+                    customTiles.appendChild(tile);
+                });
+                customSection.hidden = !settings.links.length;
+            }
+
+            // Apply the settings to the page
+            var hiddenStyle = document.getElementById('hidden-tiles');
+            var searchForm = document.getElementById('search-form');
+            var search = document.getElementById('search');
+
+            function applyReminder() {
+                if (!settings.reminder || load('reminder-dismissed') === new Date().toDateString()) {
+                    root.dataset.reminder = 'hidden';
+                } else {
+                    delete root.dataset.reminder;
+                }
+            }
+
+            function setTarget(el) {
+                if (settings.newTab) {
+                    el.target = '_blank';
+                    if (el.tagName === 'A') el.rel = 'noopener';
+                } else {
+                    el.removeAttribute('target');
+                    el.removeAttribute('rel');
+                }
+            }
+
+            function apply() {
+                var engine = ENGINES[settings.search];
+                hiddenStyle.textContent = vbcnv.hiddenCss(settings.hidden);
+                searchForm.action = engine.action;
+                search.placeholder = 'Zoeken met ' + engine.name + ' …';
+                renderLinks();
+                document.querySelectorAll('.tile, .menu-item, #search-form').forEach(setTarget);
+                applyReminder();
+                renderGreeting(new Date());
+            }
+
+            apply();
             tick();
-
-            // Theme toggle
-            document.getElementById('theme-toggle').addEventListener('click', function () {
-                var dark = root.classList.toggle('dark');
-                store('theme', dark ? 'dark' : 'light');
-            });
-
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-                var saved = null;
-                try { saved = localStorage.getItem('theme'); } catch (err) { }
-                if (!saved) root.classList.toggle('dark', e.matches);
-            });
 
             // Admin apps menu
             var apps = document.getElementById('apps');
@@ -414,7 +742,11 @@
                 appsButton.setAttribute('aria-expanded', String(open));
                 if (open) {
                     appsMenu.setAttribute('data-open', '');
-                    appsMenu.querySelector('a').focus();
+                    // Focus the first item that isn't hidden through the settings
+                    var first = Array.prototype.find.call(appsMenu.querySelectorAll('a'), function (a) {
+                        return a.offsetParent !== null;
+                    });
+                    if (first) first.focus();
                 } else {
                     appsMenu.removeAttribute('data-open');
                 }
@@ -434,9 +766,218 @@
                 store('reminder-dismissed', new Date().toDateString());
             });
 
+            // Settings panel
+            var dialog = document.getElementById('settings');
+            var settingsButton = document.getElementById('settings-button');
+            var nameInput = document.getElementById('set-name');
+            var reminderInput = document.getElementById('set-reminder');
+            var newTabInput = document.getElementById('set-newtab');
+            var tileList = document.getElementById('set-tiles');
+            var linkList = document.getElementById('set-links');
+            var linkEmpty = document.getElementById('set-links-empty');
+            var linkForm = document.getElementById('link-form');
+            var linkLabel = document.getElementById('link-label');
+            var linkUrl = document.getElementById('link-url');
+            var linkTemplate = document.getElementById('link-row');
+            var status = document.getElementById('settings-status');
+            var defaultStatus = status.textContent;
+
+            function say(message) {
+                status.textContent = message || defaultStatus;
+            }
+
+            // One switch per fixed shortcut, grouped like on the page (admin menu last)
+            var rowTemplate = document.getElementById('tile-row');
+            Array.prototype.slice.call(document.querySelectorAll('main [data-group]')).concat(apps).forEach(function (group) {
+                var heading = document.createElement('p');
+                heading.className = 'settings-group';
+                heading.textContent = group.dataset.group;
+                tileList.appendChild(heading);
+
+                group.querySelectorAll('[data-id]').forEach(function (item) {
+                    var row = rowTemplate.content.firstElementChild.cloneNode(true);
+                    row.querySelector('span').textContent = item.querySelector('.tile-label, .menu-label').textContent;
+                    row.querySelector('input').value = item.dataset.id;
+                    tileList.appendChild(row);
+                });
+            });
+
+            function renderLinkRows() {
+                linkList.textContent = '';
+                settings.links.forEach(function (link, i) {
+                    var row = linkTemplate.content.firstElementChild.cloneNode(true);
+                    row.dataset.index = i;
+                    row.querySelector('[data-label]').textContent = link.label;
+                    row.querySelector('[data-host]').textContent = new URL(link.url).host;
+                    row.querySelector('[data-action="up"]').disabled = i === 0;
+                    row.querySelector('[data-action="down"]').disabled = i === settings.links.length - 1;
+                    linkList.appendChild(row);
+                });
+                linkEmpty.hidden = settings.links.length > 0;
+            }
+
+            function syncForm() {
+                if (document.activeElement !== nameInput) nameInput.value = settings.name;
+                reminderInput.checked = settings.reminder;
+                newTabInput.checked = settings.newTab;
+                document.querySelector('input[name="search"][value="' + settings.search + '"]').checked = true;
+                document.querySelector('input[name="theme"][value="' + themePref() + '"]').checked = true;
+                tileList.querySelectorAll('input').forEach(function (input) {
+                    input.checked = settings.hidden.indexOf(input.value) === -1;
+                });
+                renderLinkRows();
+            }
+
+            settingsButton.addEventListener('click', function () {
+                setMenu(false);
+                syncForm();
+                say();
+                dialog.showModal();
+            });
+
+            dialog.querySelector('[data-close]').addEventListener('click', function () { dialog.close(); });
+
+            // Clicking the backdrop closes the panel
+            dialog.addEventListener('click', function (e) {
+                if (e.target === dialog) dialog.close();
+            });
+
+            nameInput.addEventListener('input', function () {
+                settings.name = nameInput.value.trim().slice(0, 40);
+                save();
+            });
+
+            reminderInput.addEventListener('change', function () {
+                settings.reminder = reminderInput.checked;
+                save();
+            });
+
+            newTabInput.addEventListener('change', function () {
+                settings.newTab = newTabInput.checked;
+                save();
+            });
+
+            document.querySelectorAll('input[name="search"]').forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    settings.search = radio.value;
+                    save();
+                });
+            });
+
+            document.querySelectorAll('input[name="theme"]').forEach(function (radio) {
+                radio.addEventListener('change', function () { setTheme(radio.value); });
+            });
+
+            tileList.addEventListener('change', function (e) {
+                var id = e.target.value;
+                settings.hidden = settings.hidden.filter(function (x) { return x !== id; });
+                if (!e.target.checked) settings.hidden.push(id);
+                save();
+            });
+
+            linkUrl.addEventListener('input', function () { linkUrl.setCustomValidity(''); });
+
+            linkForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (settings.links.length >= MAX_LINKS) {
+                    say('Je kunt maximaal ' + MAX_LINKS + ' links toevoegen.');
+                    return;
+                }
+                var link = normalizeLink({ label: linkLabel.value, url: linkUrl.value });
+                if (!link) {
+                    linkUrl.setCustomValidity('Geef een geldig webadres in, bv. www.vbc.be');
+                    linkUrl.reportValidity();
+                    return;
+                }
+                settings.links.push(link);
+                save();
+                renderLinkRows();
+                linkForm.reset();
+                linkLabel.focus();
+                say('"' + link.label + '" toegevoegd.');
+            });
+
+            linkList.addEventListener('click', function (e) {
+                var button = e.target.closest('button[data-action]');
+                if (!button) return;
+                var action = button.dataset.action;
+                var i = Number(button.closest('li').dataset.index);
+                var links = settings.links;
+                var focusIndex = i;
+
+                if (action === 'remove') {
+                    say('"' + links[i].label + '" verwijderd.');
+                    links.splice(i, 1);
+                    focusIndex = Math.min(i, links.length - 1);
+                } else {
+                    focusIndex = action === 'up' ? i - 1 : i + 1;
+                    var moved = links[i];
+                    links[i] = links[focusIndex];
+                    links[focusIndex] = moved;
+                }
+                save();
+                renderLinkRows();
+
+                // Keep keyboard focus on the row that was acted on
+                var row = linkList.children[focusIndex];
+                var next = row && (row.querySelector('[data-action="' + action + '"]:not(:disabled)') ||
+                    row.querySelector('[data-action="remove"]'));
+                (next || linkUrl).focus();
+            });
+
+            // Export / import / reset
+            document.getElementById('export-button').addEventListener('click', function () {
+                var data = Object.assign({ app: 'vbcnv', version: 1, theme: themePref() }, settings);
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+                a.download = 'vbcnv-instellingen.json';
+                a.click();
+                setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+                say('Instellingen geëxporteerd.');
+            });
+
+            var importFile = document.getElementById('import-file');
+            document.getElementById('import-button').addEventListener('click', function () { importFile.click(); });
+
+            importFile.addEventListener('change', function () {
+                var file = importFile.files[0];
+                importFile.value = '';
+                if (!file) return;
+                file.text().then(function (text) {
+                    var data = JSON.parse(text);
+                    if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('invalid');
+                    settings = normalize(data);
+                    save();
+                    if (data.theme === 'system' || data.theme === 'light' || data.theme === 'dark') setTheme(data.theme);
+                    syncForm();
+                    say('Instellingen geïmporteerd.');
+                }).catch(function () {
+                    say('Dit bestand bevat geen geldige instellingen.');
+                });
+            });
+
+            document.getElementById('reset-button').addEventListener('click', function () {
+                if (!confirm('Alle persoonlijke instellingen van deze pagina wissen?')) return;
+                settings = normalize({});
+                store(vbcnv.KEY, null);
+                store('theme', null);
+                applyTheme();
+                apply();
+                syncForm();
+                say('Standaardinstellingen hersteld.');
+            });
+
+            // Keep other open tabs in sync
+            window.addEventListener('storage', function () {
+                settings = normalize(vbcnv.read());
+                applyTheme();
+                apply();
+                if (dialog.open) syncForm();
+            });
+
             // Keyboard: "/" focuses search, Escape closes the menu
-            var search = document.getElementById('search');
             document.addEventListener('keydown', function (e) {
+                if (dialog.open) return;
                 if (e.key === 'Escape' && appsMenu.hasAttribute('data-open')) {
                     setMenu(false);
                     appsButton.focus();
