@@ -100,8 +100,23 @@
     @apply bg-zinc-100 text-zinc-600 ring-zinc-200 dark:bg-white/5 dark:text-zinc-300 dark:ring-white/10;
   }
 
-  .section-label {
-    @apply mb-3 flex items-center gap-2 px-1 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-500;
+  /* Long-press + drag to reorder. A long press must not select text or open
+     the iOS link preview. */
+  .tile {
+    -webkit-touch-callout: none;
+    @apply select-none;
+  }
+
+  /* Leaves transform out of the transitions, so the lifted tile tracks the pointer */
+  .tile.is-dragging {
+    @apply z-20 cursor-grabbing border-zinc-300 bg-white shadow-2xl shadow-zinc-900/15 dark:border-white/20 dark:bg-zinc-800 dark:shadow-black/50;
+    scale: 1.06;
+    transition-property: scale, box-shadow, background-color, border-color;
+  }
+
+  .is-sorting,
+  .is-sorting * {
+    cursor: grabbing !important;
   }
 
   /* Header buttons */
